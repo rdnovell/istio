@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: istiodemo-service
+  labels:
+    app: istiodemo-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: istiodemo-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: istiodemo-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: istiodemo-service
+        version: v1
+    spec:
+      containers:
+      - name: istiodemo-service
+        image: eu.gcr.io/wave31-webhelp-rubendarion/istiodemo:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: istiodemo-service-v2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: istiodemo-service
+        version: v2
+    spec:
+      containers:
+      - name: istiodemo-service
+        image: eu.gcr.io/wave31-webhelp-rubendarion/istiodemo:2.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080          
