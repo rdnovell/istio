@@ -49,24 +49,6 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080          
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: istiodemo-service-v3
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: istiodemo-service
-        version: v4
-    spec:
-      containers:
-      - name: istiodemo-service
-        image: eu.gcr.io/wave31-webhelp-rubendarion/istiodemo:3.0
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 8080          
 apiVersion: networking.istio.io/v1alpha3  
 kind: Gateway  
 metadata:  
@@ -110,19 +92,13 @@ spec:
           number: 8080  
         host: istiodemo-service
         subset: v1
-      weight: 50
+      weight: 30
     - destination:  
         port:  
           number: 8080  
         host: istiodemo-service
         subset: v2
-      weight: 40
-    - destination:
-        port:
-          number: 8080
-        host: istiodemo-service
-        subset: v3
-      weight: 10
+      weight: 70
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -137,18 +113,4 @@ spec:
     - name: v2
       labels:
         version: "v2"
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: deny-path-api
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: istiodemo-service
-  action: DENY
-  rules:
-  - to:
-    - operation:
-        paths: ["/secret"]
+
