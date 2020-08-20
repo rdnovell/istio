@@ -48,7 +48,7 @@ spec:
       number: 80  
       protocol: HTTP  
     hosts:  
-    - "*"  
+    - istiodemo-service
 ---  
 apiVersion: networking.istio.io/v1alpha3  
 kind: VirtualService  
@@ -56,7 +56,7 @@ metadata:
   name: istiodemo-service  
 spec:  
   hosts:  
-  - istiodemo-service
+  - "*"
   gateways:  
   - istiodemo-gateway  
   http:  
