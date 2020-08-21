@@ -62,7 +62,7 @@ spec:
   http:  
   - match:  
     - uri:  
-        prefix: /  
+        exact: /  
     route:  
     - destination:  
         port:  
