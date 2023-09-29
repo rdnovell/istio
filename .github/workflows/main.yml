@@ -1,0 +1,14 @@
+name: test
+
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Test scp
+    runs-on: ubuntu-20.04  
+    steps:
+      - name: Checkout
+        # Checkout target revision from git repository
+        uses: actions/checkout@v3    
